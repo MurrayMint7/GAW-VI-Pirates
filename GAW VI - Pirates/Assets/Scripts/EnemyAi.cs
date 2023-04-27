@@ -21,14 +21,14 @@ public class EnemyAi : MonoBehaviour
 
     //attacking
     public float timebetweenAttacks;
-    bool alreadyAttacked;
+    public bool alreadyAttacked;
     public GameObject projectile;
 
     //states
     public float sightRange;
     public float attackRange;
-    bool PlayerInSightRange;
-    bool PlayerInAttackRange;
+    public bool PlayerInSightRange;
+    public bool PlayerInAttackRange;
 
     void Update()
     {
@@ -51,7 +51,7 @@ public class EnemyAi : MonoBehaviour
     }
     void Awake()
     {
-        player = GameObject.Find("PlayerObject").transform;
+        player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
 
     }
@@ -101,11 +101,12 @@ public class EnemyAi : MonoBehaviour
         //make sure enemy does not move
         agent.SetDestination(transform.position);
         transform.LookAt(player);
+
         if(!alreadyAttacked)
         {
             Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+            rb.AddForce(transform.up * 2f, ForceMode.Impulse);
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timebetweenAttacks);

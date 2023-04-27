@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 XYRotation;
 
+    public GameObject projectile;
 
 
 
@@ -47,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-
+        
         //All Movement
         MyInput();
         SpeedControl();
@@ -133,6 +134,11 @@ public class PlayerMovement : MonoBehaviour
 
 
 
+        }
+
+        if (collision.gameObject.CompareTag("Projectile"))
+        {
+            Debug.Log("OW!");
         }
         else
         {

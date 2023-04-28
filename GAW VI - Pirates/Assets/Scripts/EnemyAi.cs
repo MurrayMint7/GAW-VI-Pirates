@@ -12,7 +12,7 @@ public class EnemyAi : MonoBehaviour
     public LayerMask Whatisground;
     public LayerMask Whatisplayer;
 
-    public float health;
+    public float health = 100;
 
     //Patroling
     public Vector3 walkPoint;
@@ -36,11 +36,11 @@ public class EnemyAi : MonoBehaviour
         PlayerInSightRange = Physics.CheckSphere(transform.position, sightRange, Whatisplayer);
         PlayerInAttackRange = Physics.CheckSphere(transform.position, attackRange, Whatisplayer);
 
-        if(!PlayerInSightRange && !PlayerInAttackRange)
+        if (!PlayerInSightRange && !PlayerInAttackRange)
         {
             Patrolling();
         }
-        if(PlayerInSightRange && !PlayerInAttackRange)
+        if (PlayerInSightRange && !PlayerInAttackRange)
         {
             ChasePlayer();
         }
@@ -58,12 +58,12 @@ public class EnemyAi : MonoBehaviour
 
     void Patrolling()
     {
-        if(!walkpointSet) 
+        if (!walkpointSet)
         {
             SearchWalkPoint();
         }
 
-        if (walkpointSet) 
+        if (walkpointSet)
         {
             agent.SetDestination(walkPoint);
         }
@@ -71,7 +71,7 @@ public class EnemyAi : MonoBehaviour
         Vector3 distancetowalkPoint = transform.position - walkPoint;
 
         //walk point reached 
-        if(distancetowalkPoint.magnitude < 1f)
+        if (distancetowalkPoint.magnitude < 1f)
         {
             walkpointSet = false;
         }
@@ -85,7 +85,7 @@ public class EnemyAi : MonoBehaviour
 
         walkPoint = new Vector3(transform.position.x + RandomX, transform.position.y, transform.position.z + RandomZ);
 
-        if(Physics.Raycast(walkPoint, -transform.up, Whatisground))
+        if (Physics.Raycast(walkPoint, -transform.up, Whatisground))
         {
             walkpointSet = true;
         }
@@ -93,7 +93,7 @@ public class EnemyAi : MonoBehaviour
 
     void ChasePlayer()
     {
-        agent.SetDestination(player.position); 
+        agent.SetDestination(player.position);
     }
 
     void AttackPlayer()
@@ -102,7 +102,7 @@ public class EnemyAi : MonoBehaviour
         agent.SetDestination(transform.position);
         transform.LookAt(player);
 
-        if(!alreadyAttacked)
+        if (!alreadyAttacked)
         {
             Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
@@ -118,15 +118,7 @@ public class EnemyAi : MonoBehaviour
         alreadyAttacked = false;
     }
 
-    void TakeDamage(int damage)
-    {
-        health -= damage;
 
-        if(health <= 0)
-        {
-            Invoke(nameof(DestroyEnemy), 0.5f);
-        }
-    }
     void DestroyEnemy()
     {
         Destroy(gameObject);
@@ -139,5 +131,18 @@ public class EnemyAi : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
 
+    }
+
+    void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.CompareTag("Player Projectile"))
+        {
+            
+            health = health - 25;
+            if (health <= 0)
+            {
+                Invoke(nameof(DestroyEnemy), 0.5f);
+            }
+        }
     }
 }

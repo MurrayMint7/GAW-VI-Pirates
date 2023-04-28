@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -26,7 +27,8 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject projectile;
 
-
+    public float health = 100;
+    public GameObject panel;
 
 
     void Start()
@@ -38,6 +40,9 @@ public class PlayerMovement : MonoBehaviour
         //Cursor.visible = false;
 
         wallRunSpeed = moveSpeed;
+
+
+        panel.SetActive(false);
     }
 
     void FixedUpdate()
@@ -91,6 +96,17 @@ public class PlayerMovement : MonoBehaviour
         transform.eulerAngles = new Vector3(0f, XYRotation.y, 0f);
         PlayerCamera.localEulerAngles = new Vector3(XYRotation.x, 0f, 0f);
 
+        if (health <= 0)
+        {
+
+
+            panel.SetActive(true);
+            Cursor.visible = true;
+            sens = sens - sens;
+            moveSpeed = moveSpeed - moveSpeed;
+
+        }
+
     }
 
     void MyInput()
@@ -119,32 +135,32 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        //For Reset
-        if (collision.gameObject.CompareTag("Floor"))
-        {
-
-            //message.SetActive(true);
-            //button.SetActive(true);
-            //Cursor.visible = true;
-            //sens = sens - sens;
-            //moveSpeed = moveSpeed - moveSpeed;
+  
 
 
 
 
 
-
-        }
+ 
 
         if (collision.gameObject.CompareTag("Projectile"))
         {
-            Debug.Log("OW!");
+            Debug.Log("Ow");
+            health = health - 25f;
         }
-        else
+
+
+    }
+    void OnTriggerEnter(Collider collision)
+    {
+
+
+        if (collision.gameObject.CompareTag("Projectile"))
         {
-            //message.SetActive(false);
-            //button.SetActive(false);
+            Debug.Log("Ow");
+            health = health - 25f;
         }
+
 
     }
 
@@ -166,5 +182,10 @@ public class PlayerMovement : MonoBehaviour
             rb.drag = 0f;
             onGround = false;
         }
+    }
+
+    public void Reset()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

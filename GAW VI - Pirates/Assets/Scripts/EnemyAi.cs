@@ -12,7 +12,7 @@ public class EnemyAi : MonoBehaviour
     public LayerMask Whatisground;
     public LayerMask Whatisplayer;
 
-    public float health;
+    public float health = 100;
 
     //Patroling
     public Vector3 walkPoint;
@@ -118,15 +118,7 @@ public class EnemyAi : MonoBehaviour
         alreadyAttacked = false;
     }
 
-    void TakeDamage(int damage)
-    {
-        health -= damage;
 
-        if(health <= 0)
-        {
-            Invoke(nameof(DestroyEnemy), 0.5f);
-        }
-    }
     void DestroyEnemy()
     {
         Destroy(gameObject);
@@ -139,5 +131,18 @@ public class EnemyAi : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
 
+    }
+
+    void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.CompareTag("Player Projectile"))
+        {
+            Debug.Log("Ow Back");
+            health = health - 25;
+            if (health <= 0)
+            {
+                Invoke(nameof(DestroyEnemy), 0.5f);
+            }
+        }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class RandomSpawner : MonoBehaviour
 {
     public GameObject CargoShip;
-    public GameObject[] asteroids;
+    public GameObject asteroid;
     public float spawnInterval = 5f; 
     public float spawnForce = 300f; 
     public float spawnRange = 500f;
@@ -31,7 +31,7 @@ public class RandomSpawner : MonoBehaviour
 
             Vector3 spawnPosition = transform.position + Random.insideUnitSphere * spawnRange;
             if(Random.Range(0,100) < 30){
-                spawnedObject = Instantiate(asteroids[Random.Range(0,2)], transform.position, Quaternion.identity);
+                spawnedObject = Instantiate(asteroid, transform.position, Quaternion.identity);
 
             }
             else{

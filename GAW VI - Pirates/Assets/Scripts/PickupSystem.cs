@@ -21,17 +21,17 @@ public class PickupSystem : MonoBehaviour
     void FixedUpdate()
     {
         
-            collectionText.text = startCount.ToString();
+        collectionText.text = startCount.ToString();
        
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
         //Change the tag to whatever you tagged the pickup object as
-        if (collision.gameObject.CompareTag("Points"))
+        if (other.gameObject.tag =="Points")
         {
-            startCount = startCount + 1;
-            Destroy(collision.gameObject);
+            startCount++;
+            Destroy(other.gameObject);
         }
 
     }

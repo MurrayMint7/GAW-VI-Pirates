@@ -21,7 +21,7 @@ public class Projectile : MonoBehaviour
     void OnTriggerEnter(Collider other) {
         if(other.tag == "Cargo Ship"){
             Destroy(other.gameObject);
-            Instantiate(points);
+            Instantiate(points, transform.position, transform.rotation);
         }
     }
 }

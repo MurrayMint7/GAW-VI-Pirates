@@ -9,6 +9,8 @@ public class ControlShip : MonoBehaviour
     public GameObject playerCam;
     public Transform seat;
     public Transform target;
+    public Camera cam2;
+    public Camera cam;
     public bool seated = false;
     SpaceShipController controllerScript;
     PlayerMovement playerScript;
@@ -38,6 +40,8 @@ public class ControlShip : MonoBehaviour
             rb.mass = 1;
             rb.useGravity = true;
             seated = false;
+            cam.depth = 1;
+            cam2.depth = 0;
         }
 
         if(seated){
@@ -50,6 +54,8 @@ public class ControlShip : MonoBehaviour
         if (other.tag == "Player"){           
             other.transform.parent.GetComponent<PlayerMovement>().enabled = false;
             other.transform.parent.GetComponent<CameraMovement>().enabled = false;
+            cam2.depth = 1;
+            cam.depth = 0;
             player.GetComponent<PlayerAttack>().enabled = false;
             controllerScript.enabled = true;
             player.transform.SetParent(ship.transform);

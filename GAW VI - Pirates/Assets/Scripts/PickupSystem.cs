@@ -8,10 +8,7 @@ public class PickupSystem : MonoBehaviour
 {
     public TextMeshProUGUI collectionText;
 
-
     public float startCount = 0;
-
-    public bool PlayerRange = false;
 
 
     // Start is called before the first frame update
@@ -31,10 +28,10 @@ public class PickupSystem : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         //Change the tag to whatever you tagged the pickup object as
-        if (collision.gameObject.CompareTag("Fuel"))
+        if (collision.gameObject.CompareTag("Points"))
         {
             startCount = startCount + 1;
-            collision.gameObject.SetActive(false);
+            Destroy(collision.gameObject);
         }
 
     }

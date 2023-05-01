@@ -10,6 +10,8 @@ TagManager:
   - Player Projectile
   - Enemy
   - Fuel
+  - Points
+  - Cargo Ship
   layers:
   - Default
   - TransparentFX

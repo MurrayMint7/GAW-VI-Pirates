@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class CargoShipController : MonoBehaviour
 {
     Rigidbody rb;
-    public GameObject points;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,13 +14,6 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb.AddForce(transform.right * 10000f);
-    }
-
-    void OnTriggerEnter(Collider other) {
-        if(other.tag == "Cargo Ship"){
-            Destroy(other.gameObject);
-            Instantiate(points);
-        }
+        rb.AddForce(transform.right * 150);
     }
 }

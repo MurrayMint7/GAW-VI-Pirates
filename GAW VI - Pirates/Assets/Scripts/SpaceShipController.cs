@@ -8,9 +8,12 @@ public class SpaceShipController : MonoBehaviour
     public float movementSpeed = 10f;
     public float gravity = 9.81f;
     public float drag = 1f;
-
+    public GameObject player;
+    public GameObject bullet;
     private Rigidbody rb;
     private bool isMoving = false;
+    public Transform leftShot;
+    public Transform rightShot;
 
     void Start()
     {
@@ -19,6 +22,19 @@ public class SpaceShipController : MonoBehaviour
         rb.drag = drag;
     }
 
+    void Update(){
+        // Shoot from left gun on left click
+        if (Input.GetMouseButtonDown(0))
+        {
+            Instantiate(bullet, leftShot.position, leftShot.rotation);
+        }
+
+        // Shoot from right gun on right click
+        if (Input.GetMouseButtonDown(1))
+        {
+            Instantiate(bullet, rightShot.position, rightShot.rotation);
+        }
+    }
     void FixedUpdate()
     {
 
@@ -63,5 +79,7 @@ public class SpaceShipController : MonoBehaviour
         {
             rb.AddForce(transform.right * movementSpeed);
         }
+
+        
     }
 }

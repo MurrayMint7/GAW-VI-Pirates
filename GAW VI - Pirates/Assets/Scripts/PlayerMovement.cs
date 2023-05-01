@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour
 {
     //For Movement
-    public float moveSpeed;
+    public static float moveSpeed = 30;
     public Transform orientation;
     float horizontalInput;
     float verticalInput;
@@ -17,19 +17,8 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 5f;
     public float wallRunSpeed;
     public bool wallrunning;
-
-
-    //For Camera
-    public Transform PlayerCamera;
-    public Vector2 sens;
-
-    private Vector2 XYRotation;
-
-    public GameObject projectile;
-
-    public float health = 100;
-    public GameObject panel;
-
+    public static float health = 100;
+    
 
     void Start()
     {
@@ -37,12 +26,11 @@ public class PlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
 
         //Makes mouse invisible
-        //Cursor.visible = false;
+        Cursor.visible = false;
 
         wallRunSpeed = moveSpeed;
 
 
-        panel.SetActive(false);
     }
 
     void FixedUpdate()
@@ -77,34 +65,6 @@ public class PlayerMovement : MonoBehaviour
         if (onGround == false)
         {
             rb.drag = 0f;
-        }
-
-        //All For Camera
-
-        Vector2 MouseInput = new Vector2
-        {
-            x = Input.GetAxisRaw("Mouse X"),
-            y = Input.GetAxisRaw("Mouse Y")
-
-        };
-
-
-        XYRotation.x -= MouseInput.y * sens.y;
-        XYRotation.y += MouseInput.x * sens.x;
-
-        XYRotation.x = Mathf.Clamp(XYRotation.x, -90f, 90f);
-        transform.eulerAngles = new Vector3(0f, XYRotation.y, 0f);
-        PlayerCamera.localEulerAngles = new Vector3(XYRotation.x, 0f, 0f);
-
-        if (health <= 0)
-        {
-
-
-            panel.SetActive(true);
-            Cursor.visible = true;
-            sens = sens - sens;
-            moveSpeed = moveSpeed - moveSpeed;
-
         }
 
     }
